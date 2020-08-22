@@ -1739,9 +1739,9 @@ signed int sub_FFFF11EA()
   signed int result; // r0
 
   v0 = (_DWORD *)0x8C0000E0;
-  MEMORY[0x8B000008] |= 0x2000u;                // GR_GEN0 bit[14] unknown
-  MEMORY[0x8B000008] |= 0x4000100u;             // GR_GEN0 bit[9] enable APB clock Enable of EIC module 
-                                                // GR_GEN0 bit[27] unknown
+  MEMORY[0x8B000008] |= 0x2000u;                // GR_GEN0 bit[13] Pin control register bit 
+  MEMORY[0x8B000008] |= 0x4000100u;             // GR_GEN0 bit[8] unknown
+                                                // GR_GEN0 bit[26] unknown
   do
   {
     *v0 |= 0x80u;
