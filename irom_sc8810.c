@@ -11,7 +11,7 @@
 // Function declarations
 
 void reset();
-signed int sub_FFFF0038();
+void *sub_FFFF0038();
 void __fastcall __noreturn die(int a1, int a2);
 int __fastcall jump_to(int a1);
 int *__noreturn irom_enter();
@@ -36,23 +36,23 @@ int sub_FFFF036A();
 int __fastcall sub_FFFF0388(int a1);
 signed int sub_FFFF03DC();
 int __fastcall maybe_usb_download_related_2(int a1);
-int __fastcall sub_FFFF0464(int a1, int a2);
+int __fastcall usb_endpoint_related(int a1, int a2);
 signed int __fastcall sub_FFFF0496(char a1, char a2, int a3, int a4);
 _DWORD *__fastcall sub_FFFF04D0(int a1, int a2);
 unsigned int *__fastcall sub_FFFF04FA(int a1, char a2, int a3, __int16 a4);
 _DWORD *__fastcall sub_FFFF0524(int a1, int a2, int a3, int a4, int a5);
-signed int __fastcall sub_FFFF05C4(_DWORD *a1, _DWORD *a2);
+int __fastcall sub_FFFF05C4(_DWORD *a1, _DWORD *a2, int a3, int a4, int a5);
 _DWORD *__fastcall sub_FFFF0604(char a1);
-_DWORD *sub_FFFF0638();
-int sub_FFFF06EC();
-int sub_FFFF0794();
+_DWORD *__fastcall sub_FFFF0638(int a1, int a2, int a3, int a4);
+int usb_reset_handler();
+int usb_enumeration_done();
 unsigned int sub_FFFF07E8();
-int sub_FFFF08C4();
-int sub_FFFF090A();
-signed int sub_FFFF093A();
-int something_usb_related();
+int __fastcall sub_FFFF08C4(int a1, int a2, int a3, int a4);
+int __fastcall usb_EP_out_handle(int a1, int a2, int a3, int a4);
+signed int maybe_some_usb_interrupts_1();
+int __fastcall usb_handler(int a1, int a2, int a3, int a4);
 int __fastcall sub_FFFF09A6(int a1, int a2, int a3);
-int __fastcall sub_FFFF09B6(int a1);
+int __fastcall usb_core_init(int a1);
 int __fastcall maybe_usb_read(_BYTE *a1);
 unsigned int sub_FFFF0AF0();
 unsigned int __fastcall sub_FFFF0BCA(_DWORD *a1);
@@ -71,11 +71,11 @@ signed int __fastcall sub_FFFF0F74(int a1, int a2);
 signed int sub_FFFF1020();
 BOOL sub_FFFF10C4();
 signed int read_spl_from_emmc();
-signed int sub_FFFF11DC();
+signed int maybe_clock_init();
 signed int sub_FFFF11EA();
 signed int sub_FFFF1238();
-_DWORD *sub_FFFF1246();
-int sub_FFFF1278();
+_DWORD *uart_init();
+int keypad_init();
 int sub_FFFF12C0();
 signed int disable_keypad();
 int get_timer_tick();
@@ -83,20 +83,20 @@ signed int __fastcall sub_FFFF131C(_DWORD *a1, int a2);
 signed int __fastcall sub_FFFF1348(int a1);
 int sub_FFFF1370();
 int __fastcall trace_write(int result);
-int sub_FFFF139A();
-unsigned int sub_FFFF13C2();
+int platform_init();
+unsigned int sleep();
 BOOL read_unknown_ctrl5_1();
 BOOL maybe_if_allow_uart_download();
 signed int sub_FFFF13F6();
 int CheckSecureBootEnable();
-signed int __fastcall sub_FFFF143A(int a1);
+signed int __fastcall maybe_USB_LDO_Control(int a1);
 signed int sub_FFFF146C();
 signed int __fastcall HashVerify(int a1, int a2);
-int sub_FFFF14F8();
-BOOL sub_FFFF1506();
+int maybe_check_usb_download();
+BOOL read_unknown_ctrl5_3();
 int __fastcall sub_FFFF1516(int a1);
-BOOL boot_from_emmc();
-BOOL sub_FFFF1536();
+BOOL is_booting_from_emmc();
+BOOL read_unknown_ctrl5_4();
 BOOL read_unknown_ctrl5_2();
 int __fastcall sub_FFFF1556(int a1, int a2, int a3);
 signed int sub_FFFF1610();
@@ -105,7 +105,7 @@ int __fastcall sub_FFFF1684(int a1, int a2, int a3, unsigned int a4);
 int __fastcall sub_FFFF1688(int result, unsigned __int8 a2, unsigned int a3);
 int __fastcall sub_FFFF1692(unsigned __int16 *a1, signed int a2);
 signed int nand_stuffs_1();
-signed int sub_FFFF1742();
+signed int disable_nfc();
 signed int sub_FFFF176E();
 signed int __fastcall sub_FFFF17C8(int a1);
 signed int __fastcall sub_FFFF17EA(unsigned __int8 *a1);
@@ -121,14 +121,14 @@ signed int __fastcall sub_FFFF1B8C(int a1, int a2, int a3, unsigned int a4);
 int __fastcall sub_FFFF1BCC(_BYTE *a1, int a2, unsigned int a3);
 signed int __fastcall sub_FFFF1C84(unsigned __int8 *a1, int a2, int a3);
 signed int __fastcall nand_stuffs_2(int a1);
-signed int sub_FFFF1D74();
+signed int clear_uart_fifo();
 signed int __fastcall read_spl_from_nand(int a1, int a2, int a3, int a4);
-int __cdecl main(int argc, const char **argv, const char **envp);
+int __cdecl main();
 int sub_FFFF1EEE();
 signed int *__fastcall sub_FFFF1F12(int a1);
 signed int *__fastcall sub_FFFF1F36(int a1);
 signed int *sub_FFFF1F64();
-int sub_FFFF1F7E();
+int __fastcall sub_FFFF1F7E(int a1, int a2);
 signed int sub_FFFF1F94();
 int __fastcall sub_FFFF1FA0(_BYTE *a1, unsigned int a2);
 int __fastcall sub_FFFF1FD0(int a1, int a2, int a3, unsigned int a4);
@@ -136,11 +136,11 @@ int __fastcall sub_FFFF1FD4(int result, int a2, unsigned int a3, unsigned int a4
 _DWORD *__fastcall sub_FFFF20A8(_DWORD *result, int *a2, unsigned int a3, int a4);
 void __fastcall sub_FFFF21AC(unsigned int a1, unsigned int a2);
 _DWORD *__fastcall sub_FFFF22E0(_DWORD *result, unsigned int a2, int a3);
-int sub_FFFF232A();
+void *sub_FFFF232A();
 void *sub_FFFF2380();
 void *sub_FFFF2388();
 int __fastcall sub_FFFF2390(unsigned int a1, unsigned int a2);
-int __fastcall sub_FFFF23B4(int a1);
+int __fastcall jump_to(int a1);
 unsigned int __fastcall sub_FFFF23BC(unsigned int a1);
 unsigned int __fastcall sub_FFFF23C4(int a1);
 _DWORD *sub_FFFF23D8();
@@ -201,6 +201,7 @@ int soft_hash_data[]; // weak
 int dword_4000666C; // weak
 int dword_40006670; // weak
 int dword_40006674; // weak
+_UNKNOWN unk_4000667C; // weak
 _UNKNOWN INIT_STACK; // weak
 _UNKNOWN unk_40007A8C; // weak
 __int16 word_40007E8C; // weak
@@ -236,14 +237,14 @@ _UNKNOWN unk_FFFF3508; // weak
 //----- (FFFF0000) --------------------------------------------------------
 void reset()
 {
-  __set_CPSR(0xD3u);
+  __set_CPSR(0xD3u);                            // Switch to SVC mode
   irom_enter();
 }
 
 //----- (FFFF0038) --------------------------------------------------------
-signed int sub_FFFF0038()
+void *sub_FFFF0038()
 {
-  return 0x4000667C;
+  return &unk_4000667C;
 }
 
 //----- (FFFF007C) --------------------------------------------------------
@@ -319,15 +320,12 @@ void null_1()
 void __noreturn sub_FFFF00F4()
 {
   int v0; // r0
-  const char **v1; // r1
-  const char **v2; // r2
-  int v3; // r0
-  int v4; // r1
+  int v1; // r1
 
   sub_FFFF232A();
   sub_FFFF00E8();
-  v3 = main(v0, v1, v2);
-  empty(v3, v4);
+  v0 = main();
+  empty(v0, v1);
 }
 
 //----- (FFFF0106) --------------------------------------------------------
@@ -345,13 +343,13 @@ void __fastcall __noreturn empty(int a1, int a2)
 //----- (FFFF0114) --------------------------------------------------------
 signed int sub_FFFF0114()
 {
-  return -56344;
+  return 0xFFFF23E8;
 }
 
 //----- (FFFF0118) --------------------------------------------------------
 signed int sub_FFFF0118()
 {
-  return -56324;
+  return 0xFFFF23FC;
 }
 
 //----- (FFFF0124) --------------------------------------------------------
@@ -627,27 +625,24 @@ int sub_FFFF0350()
 int sub_FFFF036A()
 {
   sub_FFFF0160(0x80u);
-  sub_FFFF13C2();
-  return sub_FFFF23B4(dword_40007E9C);
+  sleep();
+  return jump_to(dword_40007E9C);
 }
 // 40007E9C: using guessed type int dword_40007E9C;
 
 //----- (FFFF0388) --------------------------------------------------------
 int __fastcall sub_FFFF0388(int a1)
 {
-  int v1; // r5
-
-  v1 = a1;
   MEMORY[0x2090020C] &= 0xFFFFFFFB;
   MEMORY[0x20900200] |= 0x20u;
-  sub_FFFF143A(1);
+  maybe_USB_LDO_Control(1);
   sub_FFFF146C();
   MEMORY[0x20900210] |= 0x80u;
-  sub_FFFF13C2();
+  sleep();
   MEMORY[0x20900210] &= 0xFFFFFF7F;
   MEMORY[0x8B000020] |= 0x5A00u;
-  sub_FFFF13C2();
-  return sub_FFFF09B6(v1);
+  sleep();
+  return usb_core_init(a1);
 }
 
 //----- (FFFF03DC) --------------------------------------------------------
@@ -675,15 +670,13 @@ signed int sub_FFFF03DC()
 //----- (FFFF0414) --------------------------------------------------------
 int __fastcall maybe_usb_download_related_2(int a1)
 {
-  int v1; // r5
   int v2; // r1
   int v3; // r2
   int v4; // r3
   int result; // r0
 
-  v1 = a1;
   sub_FFFF03DC();
-  sub_FFFF0388(v1);
+  sub_FFFF0388(a1);
   trace_write(2);
   result = maybe_usb_download_related(1, v2, v3, v4);
   if ( result != 1 )
@@ -695,7 +688,7 @@ int __fastcall maybe_usb_download_related_2(int a1)
 }
 
 //----- (FFFF0464) --------------------------------------------------------
-int __fastcall sub_FFFF0464(int a1, int a2)
+int __fastcall usb_endpoint_related(int a1, int a2)
 {
   MEMORY[0x20300B10] |= 0x60000000u;
   MEMORY[0x20300B10] |= 0x18u;
@@ -800,31 +793,31 @@ _DWORD *__fastcall sub_FFFF0524(int a1, int a2, int a3, int a4, int a5)
 }
 
 //----- (FFFF05C4) --------------------------------------------------------
-signed int __fastcall sub_FFFF05C4(_DWORD *a1, _DWORD *a2)
+int __fastcall sub_FFFF05C4(_DWORD *a1, _DWORD *a2, int a3, int a4, int a5)
 {
-  int v2; // r4
-  signed int result; // r0
-  int v4; // r3
-  char v5; // r0
+  int v5; // r4
+  int result; // r0
+  int v7; // r3
+  char v8; // r0
 
-  v2 = (*a2 >> 16) & 0xFF;
+  v5 = (*a2 >> 16) & 0xFF;
   result = *a1 >> 24;
   if ( result == 1 )
   {
-    v4 = sub_FFFF0114();
-    v5 = 18;
+    v7 = sub_FFFF0114();
+    v8 = 18;
   }
   else
   {
     if ( result != 2 )
       return result;
-    v4 = sub_FFFF0118();
-    if ( v2 == 255 )
-      v5 = 32;
+    v7 = sub_FFFF0118();
+    if ( v5 == 255 )
+      v8 = 32;
     else
-      v5 = v2;
+      v8 = v5;
   }
-  return sub_FFFF0496(v5, 1, 1, v4);
+  return sub_FFFF0496(v8, 1, 1, v7);
 }
 
 //----- (FFFF0604) --------------------------------------------------------
@@ -851,35 +844,35 @@ _DWORD *__fastcall sub_FFFF0604(char a1)
 }
 
 //----- (FFFF0638) --------------------------------------------------------
-_DWORD *sub_FFFF0638()
+_DWORD *__fastcall sub_FFFF0638(int a1, int a2, int a3, int a4)
 {
-  unsigned int v0; // r2
-  int v1; // r2
+  unsigned int v4; // r2
+  int v5; // r2
   _DWORD *result; // r0
-  int v3; // r2
-  int *v4; // r3
-  char v5; // r0
-  int v6; // [sp+0h] [bp-8h]
+  int v7; // r2
+  int *v8; // r3
+  char v9; // r0
+  int v10; // [sp+0h] [bp-8h]
 
-  v6 = 0;
-  v0 = ((unsigned int)dword_40006130 >> 5) & 3;
-  if ( v0 )
+  v10 = 0;
+  v4 = ((unsigned int)dword_40006130 >> 5) & 3;
+  if ( v4 )
   {
-    if ( v0 != 1 )
+    if ( v4 != 1 )
     {
-      if ( v0 == 2 )
+      if ( v4 == 2 )
       {
-        v3 = 1;
-        v4 = &v6;
-        v5 = 4;
-        return (_DWORD *)sub_FFFF0496(v5, 1, v3, (int)v4);
+        v7 = 1;
+        v8 = &v10;
+        v9 = 4;
+        return (_DWORD *)sub_FFFF0496(v9, 1, v7, (int)v8);
       }
       goto LABEL_19;
     }
     if ( (dword_40006130 & 0x1F) != 1 )
     {
 LABEL_19:
-      v4 = 0;
+      v8 = 0;
       goto LABEL_10;
     }
     if ( (((unsigned int)dword_40006130 >> 16) & 0xFF) == 1 && (unsigned int)dword_40006130 >> 24 == 6 )
@@ -888,12 +881,12 @@ LABEL_19:
       sub_FFFF04D0(6, 1);
     }
 LABEL_14:
-    v4 = 0;
-    v3 = 0;
+    v8 = 0;
+    v7 = 0;
     goto LABEL_15;
   }
-  v1 = (unsigned __int16)dword_40006130 >> 8;
-  switch ( v1 )
+  v5 = (unsigned __int16)dword_40006130 >> 8;
+  switch ( v5 )
   {
     case 1:
       result = (_DWORD *)(dword_40006130 & 0x1F);
@@ -904,17 +897,17 @@ LABEL_14:
       MEMORY[0x20300800] = MEMORY[0x20300800] & 0xFFFFF80F | 16 * (((unsigned int)dword_40006130 >> 16) & 0x7F);
       goto LABEL_14;
     case 6:
-      result = (_DWORD *)sub_FFFF05C4(&dword_40006130, &dword_40006134);
+      result = (_DWORD *)sub_FFFF05C4(&dword_40006130, &dword_40006134, 6, a4, v10);
       break;
     case 9:
       goto LABEL_14;
     default:
-      v4 = &v6;
+      v8 = &v10;
 LABEL_10:
-      v3 = 1;
+      v7 = 1;
 LABEL_15:
-      v5 = 0;
-      return (_DWORD *)sub_FFFF0496(v5, 1, v3, (int)v4);
+      v9 = 0;
+      return (_DWORD *)sub_FFFF0496(v9, 1, v7, (int)v8);
   }
   return result;
 }
@@ -922,7 +915,7 @@ LABEL_15:
 // 40006134: using guessed type int dword_40006134;
 
 //----- (FFFF06EC) --------------------------------------------------------
-int sub_FFFF06EC()
+int usb_reset_handler()
 {
   unsigned int v0; // r0
   unsigned int v1; // r0
@@ -935,9 +928,9 @@ int sub_FFFF06EC()
   MEMORY[0x20300814] |= 0xFu;
   v0 = 0;
   MEMORY[0x20300810] |= 0x2Fu;
-  MEMORY[0x20300024] = 532;
-  MEMORY[0x20300028] = 2097684;
-  MEMORY[0x20300114] = 8389172;
+  MEMORY[0x20300024] = 0x214;
+  MEMORY[0x20300028] = 0x200214;
+  MEMORY[0x20300114] = 0x800234;
   MEMORY[0x20300010] |= 0x20u;
   do
   {
@@ -955,7 +948,7 @@ int sub_FFFF06EC()
     ++v1;
   }
   while ( v1 < 0x3E80 );
-  sub_FFFF0464(1, (int)&dword_40006130);
+  usb_endpoint_related(1, (int)&dword_40006130);
   MEMORY[0x20300018] |= 0x1000u;
   result = MEMORY[0x20300014] | 0x1000;
   MEMORY[0x20300014] |= 0x1000u;
@@ -964,7 +957,7 @@ int sub_FFFF06EC()
 // 40006130: using guessed type int dword_40006130;
 
 //----- (FFFF0794) --------------------------------------------------------
-int sub_FFFF0794()
+int usb_enumeration_done()
 {
   int result; // r0
 
@@ -972,7 +965,7 @@ int sub_FFFF0794()
   MEMORY[0x20300900] &= 0xFFFFFFFC;
   sub_FFFF04FA(5, 2, 0, 64);
   sub_FFFF04FA(6, 2, 1, 64);
-  sub_FFFF0464(1, (int)&dword_40006130);
+  usb_endpoint_related(1, (int)&dword_40006130);
   MEMORY[0x20300804] |= 0x100u;
   result = MEMORY[0x20300014] | 0x2000;
   MEMORY[0x20300014] |= 0x2000u;
@@ -1037,10 +1030,10 @@ unsigned int sub_FFFF07E8()
 // 40006254: using guessed type int dword_40006254;
 
 //----- (FFFF08C4) --------------------------------------------------------
-int sub_FFFF08C4()
+int __fastcall sub_FFFF08C4(int a1, int a2, int a3, int a4)
 {
   if ( MEMORY[0x20300B08] & 8 )
-    sub_FFFF0638();
+    sub_FFFF0638(MEMORY[0x20300B08] << 28, a2, a3, a4);
   if ( MEMORY[0x20300B08] << 31 )
   {
     MEMORY[0x20300B00] |= 0x8000000u;
@@ -1049,21 +1042,21 @@ int sub_FFFF08C4()
   if ( MEMORY[0x20300B08] & 0x10 )
     MEMORY[0x20300B08] |= 0x10u;
   MEMORY[0x20300B08] = -1;
-  return sub_FFFF0464(1, (int)&dword_40006130);
+  return usb_endpoint_related(1, (int)&dword_40006130);
 }
 // 40006130: using guessed type int dword_40006130;
 
 //----- (FFFF090A) --------------------------------------------------------
-int sub_FFFF090A()
+int __fastcall usb_EP_out_handle(int a1, int a2, int a3, int a4)
 {
   int result; // r0
-  int v1; // [sp+0h] [bp-10h]
+  int v5; // [sp+0h] [bp-10h]
 
-  v1 = MEMORY[0x20300818];
+  v5 = MEMORY[0x20300818];
   MEMORY[0x20300018] &= 0xFFF7FFFF;
   if ( MEMORY[0x20300818] & 0x10000 )
-    sub_FFFF08C4();
-  if ( v1 & 0x400000 )
+    sub_FFFF08C4(MEMORY[0x20300818] << 15, a2, a3, a4);
+  if ( v5 & 0x400000 )
     sub_FFFF07E8();
   result = MEMORY[0x20300018] | 0x80000;
   MEMORY[0x20300018] |= 0x80000u;
@@ -1071,36 +1064,36 @@ int sub_FFFF090A()
 }
 
 //----- (FFFF093A) --------------------------------------------------------
-signed int sub_FFFF093A()
+signed int maybe_some_usb_interrupts_1()
 {
   signed int result; // r0
 
   result = 0x20300000;
-  MEMORY[0x20300018] &= 0xFFFBFFFF;
+  MEMORY[0x20300018] &= 0xFFFBFFFF;             // GINTMSK unmask OEPINTMSK 
   if ( MEMORY[0x20300818] << 31 )
-    MEMORY[0x20300908] = -1;
+    MEMORY[0x20300908] = 0xFFFFFFFF;
   if ( MEMORY[0x20300818] & 0x20 )
-    MEMORY[0x203009A8] = -1;
-  MEMORY[0x20300018] |= 0x40000u;
+    MEMORY[0x203009A8] = 0xFFFFFFFF;
+  MEMORY[0x20300018] |= 0x40000u;               // GINTMSK mask OEPINTMSK 
   return result;
 }
 
 //----- (FFFF0970) --------------------------------------------------------
-int something_usb_related()
+int __fastcall usb_handler(int a1, int a2, int a3, int a4)
 {
   int result; // r0
-  int v1; // [sp+0h] [bp-8h]
+  int v5; // [sp+0h] [bp-8h]
 
-  v1 = MEMORY[0x20300014];
+  v5 = MEMORY[0x20300014];
   if ( MEMORY[0x20300014] & 0x40000 )
-    sub_FFFF093A();
-  if ( v1 & 0x80000 )
-    sub_FFFF090A();
-  if ( v1 & 0x2000 )
-    sub_FFFF0794();
-  result = v1 << 19;
-  if ( v1 & 0x1000 )
-    result = sub_FFFF06EC();
+    maybe_some_usb_interrupts_1();
+  if ( v5 & 0x80000 )
+    usb_EP_out_handle(v5 << 12, a2, a3, a4);
+  if ( v5 & 0x2000 )
+    usb_enumeration_done();
+  result = v5 << 19;
+  if ( v5 & 0x1000 )
+    result = usb_reset_handler();
   return result;
 }
 
@@ -1112,14 +1105,14 @@ int __fastcall sub_FFFF09A6(int a1, int a2, int a3)
 }
 
 //----- (FFFF09B6) --------------------------------------------------------
-int __fastcall sub_FFFF09B6(int a1)
+int __fastcall usb_core_init(int a1)
 {
   unsigned int v1; // r2
   bool v2; // zf
   int result; // r0
 
   v1 = 0;
-  MEMORY[0x20300010] |= 1u;
+  MEMORY[0x20300010] |= 1u;                     // CSFTRST reset the usb core
   do
   {
     if ( MEMORY[0x20300010] < 0 )
@@ -1140,8 +1133,8 @@ int __fastcall sub_FFFF09B6(int a1)
   MEMORY[0x20300800] &= 0xFFFFFFFB;
   MEMORY[0x20300800] &= 0xFFFFE7FF;
   v2 = a1 == 0;
-  result = 798720;
-  MEMORY[0x20300018] = 798720;
+  result = 0xC3000;
+  MEMORY[0x20300018] = 0xC3000;
   if ( v2 )
   {
     result = MEMORY[0x20300800] | 1;
@@ -1156,15 +1149,20 @@ int __fastcall maybe_usb_read(_BYTE *a1)
   signed int v1; // r7
   _BYTE *v2; // r8
   int v3; // r9
-  int v4; // r6
+  unsigned int v4; // r0
+  int v5; // r1
+  int v6; // r2
+  int v7; // r3
+  unsigned int v8; // r6
 
   v1 = 1;
   v2 = a1;
   v3 = 0;
   v4 = get_timer_tick();
+  v8 = v4;
   while ( 1 )
   {
-    something_usb_related();
+    usb_handler(v4, v5, v6, v7);
     if ( dword_40006250 != dword_40006254 )
     {
       v3 = byte_40006258[dword_40006250++];
@@ -1172,7 +1170,8 @@ int __fastcall maybe_usb_read(_BYTE *a1)
         dword_40006250 = 0;
       v1 = 0;
     }
-    if ( (unsigned int)(get_timer_tick() - v4) > 0x3E80 )
+    v4 = get_timer_tick() - v8;
+    if ( v4 > 0x3E80 )
       break;
     if ( !v1 )
       return v3;
@@ -1313,15 +1312,15 @@ int sub_FFFF0BEE()
 {
   int result; // r0
 
-  dword_40007EA4 = 133;
-  dword_40007EAC = 226;
-  unk_40007EB0 = 1024;
+  dword_40007EA4 = 0x85;
+  dword_40007EAC = 0xE2;
+  unk_40007EB0 = 0x400;
   dword_40007EB8 = dword_4000601C;
   while ( 1 )
   {
     sub_FFFF0BCA((_DWORD *)dword_40006014);
     result = dword_40007EA4;
-    if ( dword_40007EA4 == 144 )
+    if ( dword_40007EA4 == 0x90 )
       break;
     dword_40007EAC = (unsigned int)dword_40007EAC >> 1;
   }
@@ -1545,7 +1544,7 @@ BOOL __fastcall select_mmc(int a1)
   v1 = a1 == 0;
   v2 = 0;
   mmc_selected = 0x20500000;                    // Select MMC0
-  if ( v1 )
+  if ( v1 )                                     // v1 == 0, i.e. if(0), T_T
   {
     MEMORY[0x20900200] |= 0x10u;
     MEMORY[0x20900210] |= 0x1000u;
@@ -1558,7 +1557,7 @@ BOOL __fastcall select_mmc(int a1)
     MEMORY[0x8C0000A4] |= 0x200u;
     mmc_selected = 0x20500000;
   }
-  else
+  else                                          // Hardcoded to select MMC1
   {
     MEMORY[0x20900200] |= 0x80000u;
     MEMORY[0x20900210] |= 0x10000u;
@@ -1685,7 +1684,7 @@ signed int read_spl_from_emmc()
   int v3; // r0
 
   sub_FFFF1610();
-  v0 = sub_FFFF1536();
+  v0 = read_unknown_ctrl5_4();
   v1 = read_unknown_ctrl5_2();
   v2 = 0;
   while ( 1 )
@@ -1695,7 +1694,7 @@ signed int read_spl_from_emmc()
     select_mmc(v0);
     sub_FFFF0E18();
     trace_write(0x80000);
-    sub_FFFF13C2();
+    sleep();
     if ( sub_FFFF1020() == 1 )
       break;
     v3 = 0x100000;
@@ -1703,11 +1702,11 @@ LABEL_5:
     trace_write(v3);
     sub_FFFF1556(v0, 0, v1);
     sub_FFFF163A(0);
-    sub_FFFF13C2();
+    sleep();
     if ( (unsigned int)++v2 >= 2 )
       return 0;
   }
-  sub_FFFF13C2();
+  sleep();
   if ( sub_FFFF0F74(48, 0x40000000) != 1 )
   {
     v3 = 0x200000;
@@ -1723,12 +1722,12 @@ LABEL_5:
 }
 
 //----- (FFFF11DC) --------------------------------------------------------
-signed int sub_FFFF11DC()
+signed int maybe_clock_init()
 {
   signed int result; // r0
 
   result = 0x8B000000;
-  MEMORY[0x8B00000C] |= 2u;
+  MEMORY[0x8B00000C] |= 2u;                     // Set GR_PCTL
   return result;
 }
 
@@ -1740,8 +1739,9 @@ signed int sub_FFFF11EA()
   signed int result; // r0
 
   v0 = (_DWORD *)0x8C0000E0;
-  MEMORY[0x8B000008] |= 0x2000u;
-  MEMORY[0x8B000008] |= 0x4000100u;
+  MEMORY[0x8B000008] |= 0x2000u;                // GR_GEN0 bit[14] unknown
+  MEMORY[0x8B000008] |= 0x4000100u;             // GR_GEN0 bit[9] enable APB clock Enable of EIC module 
+                                                // GR_GEN0 bit[27] unknown
   do
   {
     *v0 |= 0x80u;
@@ -1757,7 +1757,7 @@ signed int sub_FFFF11EA()
   }
   while ( (unsigned int)v1 <= 0x8C0002A8 );
   result = 0x8C000000;
-  MEMORY[0x8C000000] |= 0x3000u;
+  MEMORY[0x8C000000] |= 0x3000u;                // Chip pin registers 
   return result;
 }
 
@@ -1772,7 +1772,7 @@ signed int sub_FFFF1238()
 }
 
 //----- (FFFF1246) --------------------------------------------------------
-_DWORD *sub_FFFF1246()
+_DWORD *uart_init()
 {
   MEMORY[0x8B00000C] &= 0xFFFFFEFF;
   MEMORY[0x8B00005C] |= 0xF00000u;
@@ -1782,7 +1782,7 @@ _DWORD *sub_FFFF1246()
 }
 
 //----- (FFFF1278) --------------------------------------------------------
-int sub_FFFF1278()
+int keypad_init()
 {
   signed int v0; // r1
   int result; // r0
@@ -1794,12 +1794,12 @@ int sub_FFFF1278()
     ++v0;
   while ( v0 < 10 );
   MEMORY[0x8B00004C] &= 0xFFFFFFFD;
-  MEMORY[0x87000010] = 4095;
+  MEMORY[0x87000010] = 0xFFF;
   MEMORY[0x87000018] = 0xFFFF;
   MEMORY[0x87000028] = 0;
-  MEMORY[0x8700001C] = 15;
+  MEMORY[0x8700001C] = 0xF;                     // KPD_DEBOUNCE_CNT Counter for de-bounce time 
   result = MEMORY[0x87000000] | 1;
-  MEMORY[0x87000000] |= 1u;
+  MEMORY[0x87000000] |= 1u;                     // KPD_EN enable keypad
   return result;
 }
 
@@ -1906,20 +1906,20 @@ int __fastcall trace_write(int result)
 // 40006000: using guessed type int g_TraceValue;
 
 //----- (FFFF139A) --------------------------------------------------------
-int sub_FFFF139A()
+int platform_init()
 {
-  sub_FFFF11DC();
+  maybe_clock_init();
   sub_FFFF11EA();
   sub_FFFF1238();
-  sub_FFFF1246();
+  uart_init();
   sub_FFFF12C0();
   sub_FFFF1370();
-  sub_FFFF1278();
+  keypad_init();
   return trace_write(0x20000);
 }
 
 //----- (FFFF13C2) --------------------------------------------------------
-unsigned int sub_FFFF13C2()
+unsigned int sleep()
 {
   unsigned int result; // r0
   unsigned int v1; // r3
@@ -1985,14 +1985,14 @@ int CheckSecureBootEnable()
 // 40006658: using guessed type int efuse_hash_data[];
 
 //----- (FFFF143A) --------------------------------------------------------
-signed int __fastcall sub_FFFF143A(int a1)
+signed int __fastcall maybe_USB_LDO_Control(int a1)
 {
   int v1; // r4
   signed int result; // r0
   int v3; // r1
 
   v1 = a1;
-  result = sub_FFFF1348(-2113927664);
+  result = sub_FFFF1348(0x82000610);
   if ( result != -1 )
   {
     result = (unsigned __int16)result;
@@ -2010,7 +2010,7 @@ signed int sub_FFFF146C()
 {
   signed int result; // r0
 
-  result = 546308620;
+  result = 0x2090020C;
   MEMORY[0x2090020C] &= 0xFFFFFFFE;
   MEMORY[0x2090020C] |= 0x40u;
   return result;
@@ -2061,7 +2061,7 @@ signed int __fastcall HashVerify(int a1, int a2)
 // 40006674: using guessed type int dword_40006674;
 
 //----- (FFFF14F8) --------------------------------------------------------
-int sub_FFFF14F8()
+int maybe_check_usb_download()
 {
   int result; // r0
 
@@ -2072,7 +2072,7 @@ int sub_FFFF14F8()
 }
 
 //----- (FFFF1506) --------------------------------------------------------
-BOOL sub_FFFF1506()
+BOOL read_unknown_ctrl5_3()
 {
   return (MEMORY[0x20900218] & 8) == 0;
 }
@@ -2086,13 +2086,13 @@ int __fastcall sub_FFFF1516(int a1)
 // 40006000: using guessed type int g_TraceValue;
 
 //----- (FFFF1526) --------------------------------------------------------
-BOOL boot_from_emmc()
+BOOL is_booting_from_emmc()
 {
   return (MEMORY[0x20900218] & 0x10) == 0;
 }
 
 //----- (FFFF1536) --------------------------------------------------------
-BOOL sub_FFFF1536()
+BOOL read_unknown_ctrl5_4()
 {
   return (MEMORY[0x20900218] & 0x40) != 0;
 }
@@ -2294,19 +2294,20 @@ signed int nand_stuffs_1()
 }
 
 //----- (FFFF1742) --------------------------------------------------------
-signed int sub_FFFF1742()
+// Disable NAND after failed to boot
+signed int disable_nfc()
 {
   signed int v0; // r1
   signed int result; // r0
 
   v0 = 0;
-  MEMORY[0x20900210] |= 0x20u;
+  MEMORY[0x20900210] |= 0x20u;                  // Set or reset bit[5] of 0x2090_0210 to reset NFC module 
   do
     ++v0;
   while ( v0 < 100 );
   result = 0x20900200;
-  MEMORY[0x20900210] &= 0xFFFFFFDF;
-  MEMORY[0x20900200] &= 0xFFFFFEFF;
+  MEMORY[0x20900210] &= 0xFFFFFFDF;             // 0x2090_0210 bit[5] = 0
+  MEMORY[0x20900200] &= 0xFFFFFEFF;             // 0x2090_0200 bit[8] = 0 disable NFC clock
   return result;
 }
 
@@ -2785,14 +2786,14 @@ LABEL_8:
 }
 
 //----- (FFFF1D74) --------------------------------------------------------
-signed int sub_FFFF1D74()
+signed int clear_uart_fifo()
 {
   signed int result; // r0
 
   result = 0x83000000;
-  while ( MEMORY[0x8400000C] )
+  while ( MEMORY[0x8400000C] )                  // clear uart1 fifo
     ;
-  while ( MEMORY[0x8300000C] )
+  while ( MEMORY[0x8300000C] )                  // clear uart0 fifo
     ;
   return result;
 }
@@ -2809,7 +2810,7 @@ signed int __fastcall read_spl_from_nand(int a1, int a2, int a3, int a4)
   v7 = a3;
   v8 = a4;
   v4 = 1;
-  if ( sub_FFFF1506() == 1
+  if ( read_unknown_ctrl5_3() == 1
     && (!sub_FFFF1BCC(&v6, (int)&unk_40006020, 0xCu) || !sub_FFFF1BCC(&v6, (int)&unk_4000605C, 0x24u)) )
   {
     v4 = nand_stuffs_2((int)&v6);
@@ -2827,26 +2828,26 @@ LABEL_13:
 }
 
 //----- (FFFF1E1C) --------------------------------------------------------
-int __cdecl main(int argc, const char **argv, const char **envp)
+int __cdecl main()
 {
-  __int16 v3; // r0
-  __int16 v4; // r1
-  int v5; // r0
-  unsigned int v6; // r3
-  signed int *v7; // r0
-  int v8; // r1
-  unsigned __int16 *v9; // r2
-  int v10; // r3
+  __int16 v0; // r0
+  __int16 v1; // r1
+  int v2; // r0
+  unsigned int v3; // r3
+  signed int *v4; // r0
+  int v5; // r1
+  unsigned __int16 *v6; // r2
+  int v7; // r3
   unsigned int uboot_spl_read_size; // r0
   unsigned int maybe_remapped; // r0
-  int v14; // r1
-  int v15; // r2
-  int v16; // r3
+  int v11; // r1
+  int v12; // r2
+  int v13; // r3
   signed int spl_read_success; // r5
-  int v18; // r4
-  int v19; // r6
+  int v15; // r4
+  int v16; // r6
   int secboot_enabled; // r0 MAPDST
-  int v21; // r0
+  int v18; // r0
   int uart_download; // [sp+0h] [bp-8h]
 
   uart_download = 0;
@@ -2862,25 +2863,25 @@ int __cdecl main(int argc, const char **argv, const char **envp)
   do
     ++maybe_remapped;
   while ( maybe_remapped < 0xA );
-  sub_FFFF139A();
-  sub_FFFF1D74();
+  platform_init();
+  clear_uart_fifo();
   sub_FFFF1688((int)&word_40007E8C, 0, 0x18u);
   byte_40007E90 = 0;
   dword_40006018 = 0;
   dword_4000601C = 0;
   dword_40006010 = get_timer_tick();
-  if ( boot_from_emmc() )
+  if ( is_booting_from_emmc() )
     spl_read_success = (unsigned __int8)read_spl_from_emmc();
   else
-    spl_read_success = read_spl_from_nand(0, v14, v15, v16);
+    spl_read_success = read_spl_from_nand(0, v11, v12, v13);
   dword_40006014 = 0x83000000;
   if ( (unsigned int)(get_timer_tick() - dword_40006010) < 0x14 )
-    sub_FFFF13C2();
-  v18 = MEMORY[0x87000008] & 1;                 // detect keypad pressed
-  v19 = MEMORY[0x8700002C] & 0x77;              // 0x8700002C keypad key status, 0x77 == volume down pressed
+    sleep();
+  v15 = MEMORY[0x87000008] & 1;                 // detect keypad pressed
+  v16 = MEMORY[0x8700002C] & 0x77;              // 0x8700002C keypad key status, 0x77 == volume down pressed
   if ( maybe_if_allow_uart_download() != 1 )
   {
-    if ( !v18 || v19 )                          // key is not pressed
+    if ( !v15 || v16 )                          // key is not pressed
     {
       disable_keypad();
       check_uart_download((int)&uart_download); // then check uart
@@ -2888,20 +2889,20 @@ int __cdecl main(int argc, const char **argv, const char **envp)
     }
     disable_keypad();
   }
-  v21 = sub_FFFF14F8();
-  maybe_usb_download_related_2(v21);
+  v18 = maybe_check_usb_download();
+  maybe_usb_download_related_2(v18);
 LABEL_12:
   if ( BYTE1(uart_download) != 1 )              // if not going to enter uart download mode
   {
     secboot_enabled = CheckSecureBootEnable();
     if ( spl_read_success != 1 )
     {
-      sub_FFFF1742();
+      disable_nfc();
       while ( 1 )
         ;
     }
     trace_write(0x2000);
-    if ( boot_from_emmc() )
+    if ( is_booting_from_emmc() )
       uboot_spl_read_size = 0x6000;             // 24kb
     else
       uboot_spl_read_size = 0x4000;             // 16kb
@@ -2920,14 +2921,14 @@ LABEL_12:
   dword_4000601C = (int)&unk_40007A8C;
   sub_FFFF1688((int)&dword_40007EA4, 0, 0x20u);
   sub_FFFF0BEE();
-  v3 = sub_FFFF23BC(0x81u);
-  *(_WORD *)dword_40006018 = v3;
-  v4 = sub_FFFF23BC(6u);
-  v5 = dword_40006018;
-  *(_WORD *)(dword_40006018 + 2) = v4;
-  sub_FFFF1684(v5 + 4, (int)"SPRD3", 6, v6);
-  v7 = sub_FFFF0C1E((unsigned __int8 *)dword_40006018, 12);
-  sub_FFFF19F0((int)v7, v8, v9, v10);
+  v0 = sub_FFFF23BC(0x81u);
+  *(_WORD *)dword_40006018 = v0;
+  v1 = sub_FFFF23BC(6u);
+  v2 = dword_40006018;
+  *(_WORD *)(dword_40006018 + 2) = v1;
+  sub_FFFF1684(v2 + 4, (int)"SPRD3", 6, v3);
+  v4 = sub_FFFF0C1E((unsigned __int8 *)dword_40006018, 12);
+  sub_FFFF19F0((int)v4, v5, v6, v7);
 }
 // 40006010: using guessed type int dword_40006010;
 // 40006014: using guessed type int dword_40006014;
@@ -3009,10 +3010,10 @@ signed int *sub_FFFF1F64()
 // 40007E98: using guessed type int dword_40007E98;
 
 //----- (FFFF1F7E) --------------------------------------------------------
-int sub_FFFF1F7E()
+int __fastcall sub_FFFF1F7E(int a1, int a2)
 {
   sub_FFFF19D4(0x80u);
-  return sub_FFFF23B4(dword_40007E9C);
+  return jump_to(dword_40007E9C);
 }
 // 40007E9C: using guessed type int dword_40007E9C;
 
@@ -3391,10 +3392,10 @@ _DWORD *__fastcall sub_FFFF22E0(_DWORD *result, unsigned int a2, int a3)
 }
 
 //----- (FFFF232A) --------------------------------------------------------
-int sub_FFFF232A()
+void *sub_FFFF232A()
 {
   _DWORD *v0; // ST00_4
-  int result; // r0
+  void *result; // r0
   _DWORD *v2; // r12
   _DWORD *v3; // r12
   _DWORD *v4; // r12
@@ -3567,7 +3568,7 @@ LABEL_28:
 }
 
 //----- (FFFF23B4) --------------------------------------------------------
-int __fastcall sub_FFFF23B4(int a1)
+int __fastcall jump_to(int a1)
 {
   return jump_to(a1);
 }
