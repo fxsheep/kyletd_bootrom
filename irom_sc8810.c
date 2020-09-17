@@ -46,7 +46,7 @@ _DWORD *__fastcall sub_FFFF0604(char a1);
 _DWORD *__fastcall sub_FFFF0638(int a1, int a2, int a3, int a4);
 int usb_reset_handler();
 int usb_enumeration_done();
-unsigned int sub_FFFF07E8();
+int sub_FFFF07E8();
 int __fastcall sub_FFFF08C4(int a1, int a2, int a3, int a4);
 int __fastcall usb_EP_out_handle(int a1, int a2, int a3, int a4);
 signed int maybe_some_usb_interrupts_1();
@@ -129,7 +129,7 @@ signed int *__fastcall sub_FFFF1F12(int a1);
 signed int *__fastcall sub_FFFF1F36(int a1);
 signed int *sub_FFFF1F64();
 int __fastcall sub_FFFF1F7E(int a1, int a2);
-signed int sub_FFFF1F94();
+signed int maybe_usb_send();
 int __fastcall sub_FFFF1FA0(_BYTE *a1, unsigned int a2);
 int __fastcall sub_FFFF1FD0(int a1, int a2, int a3, unsigned int a4);
 int __fastcall sub_FFFF1FD4(int result, int a2, unsigned int a3, unsigned int a4);
@@ -141,7 +141,7 @@ void *sub_FFFF2380();
 void *sub_FFFF2388();
 int __fastcall sub_FFFF2390(unsigned int a1, unsigned int a2);
 int __fastcall jump_to(int a1);
-unsigned int __fastcall sub_FFFF23BC(unsigned int a1);
+unsigned int __fastcall asm_rev16(unsigned int a1);
 unsigned int __fastcall sub_FFFF23C4(int a1);
 _DWORD *sub_FFFF23D8();
 _DWORD *__fastcall sub_FFFF2484(_DWORD *a1, int a2, int a3, int a4);
@@ -382,7 +382,7 @@ int __fastcall sub_FFFF0160(unsigned int a1)
   __int16 v1; // r1
   int v2; // r0
 
-  v1 = sub_FFFF23BC(a1);
+  v1 = asm_rev16(a1);
   v2 = dword_40006018;
   *(_WORD *)dword_40006018 = v1;
   *(_WORD *)(v2 + 2) = 0;
@@ -489,7 +489,7 @@ void __fastcall __noreturn maybe_usb_download(int a1, int a2, unsigned __int16 *
     v4 = sub_FFFF01FC(&v6, &v7, (int)a3, a4);
     if ( v4 == 143 )
     {
-      v5 = sub_FFFF23BC(*v6);
+      v5 = asm_rev16(*v6);
       (*(void (__fastcall **)(unsigned __int16 *, int))(4 * v5 - 56292))(v6, v7);
     }
     else
@@ -528,14 +528,14 @@ int __fastcall maybe_usb_download_related(int a1, int a2, int a3, int a4)
   {
     if ( maybe_usb_read(&v15) == 0x7E && !(_BYTE)v15 )
     {
-      v4 = sub_FFFF23BC(0x81u);
+      v4 = asm_rev16(0x81u);
       *(_WORD *)dword_40006018 = v4;
-      v5 = sub_FFFF1F94();
-      v6 = sub_FFFF23BC(v5);
+      v5 = maybe_usb_send();
+      v6 = asm_rev16(v5);
       *(_WORD *)(dword_40006018 + 2) = v6;
-      v7 = sub_FFFF1F94();
+      v7 = maybe_usb_send();
       sub_FFFF1684(dword_40006018 + 4, (int)"SPRD3", v7, v8);
-      v9 = sub_FFFF1F94();
+      v9 = maybe_usb_send();
       v10 = sub_FFFF0124((_BYTE *)dword_40006018, v9 + 6);
       maybe_usb_download(v10, v11, v12, v13);
     }
@@ -590,7 +590,7 @@ int __fastcall sub_FFFF0322(int a1)
   unsigned int v3; // r3
 
   v1 = a1;
-  v2 = sub_FFFF23BC(*(unsigned __int16 *)(a1 + 2));
+  v2 = asm_rev16(*(unsigned __int16 *)(a1 + 2));
   sub_FFFF1684(dword_40007EA0, v1 + 4, v2, v3);
   dword_40007EA0 += v2;
   dword_40007E98 += v2;
@@ -747,9 +747,9 @@ unsigned int *__fastcall sub_FFFF04FA(int a1, char a2, int a3, __int16 a4)
   unsigned int *result; // r0
 
   if ( a3 )
-    v4 = 540019456;
+    v4 = 0x20300B00;                            // DOEPCTL0 Device Out Endpoint Control 0 
   else
-    v4 = 540018944;
+    v4 = 0x20300900;                            // DIEPCTL0 Device In Endpoint Control 0 
   result = (unsigned int *)(v4 + 32 * a1);
   *result = *result & 0xFFF3FFFF | ((a2 & 3) << 18);
   *result = *result & 0xFFFFF800 | a4 & 0x7FF;
@@ -975,13 +975,13 @@ int usb_enumeration_done()
 // 40006130: using guessed type int dword_40006130;
 
 //----- (FFFF07E8) --------------------------------------------------------
-unsigned int sub_FFFF07E8()
+int sub_FFFF07E8()
 {
   unsigned int v0; // r1
   unsigned int v1; // r2
   char v2; // r6
   int v3; // r5
-  unsigned int result; // r0
+  int result; // r0
   int v5; // [sp+0h] [bp-18h]
 
   v5 = MEMORY[0x20300814] & MEMORY[0x20300BC8];
@@ -1386,10 +1386,10 @@ signed int __fastcall sub_FFFF0C64(_DWORD *a1, _DWORD *a2)
   dword_40007EA8 = 0;
   sub_FFFF0AF0();
   if ( sub_FFFF1FA0((_BYTE *)dword_40007EB8, dword_40007EB4) )
-    return 139;
+    return 0x8B;
   *v2 = dword_40007EB8;
   *v3 = dword_40007EB4;
-  return 143;
+  return 0x8F;
 }
 // 40007EA8: using guessed type int dword_40007EA8;
 // 40007EB4: using guessed type int dword_40007EB4;
@@ -2496,7 +2496,7 @@ signed int *__fastcall sub_FFFF19D4(unsigned int a1)
   __int16 v1; // r1
   int v2; // r0
 
-  v1 = sub_FFFF23BC(a1);
+  v1 = asm_rev16(a1);
   v2 = dword_40006018;
   *(_WORD *)dword_40006018 = v1;
   *(_WORD *)(v2 + 2) = 0;
@@ -2517,9 +2517,9 @@ void __fastcall __noreturn sub_FFFF19F0(int a1, int a2, unsigned __int16 *a3, in
   while ( 1 )
   {
     v4 = sub_FFFF0C64(&v6, &v7);
-    if ( v4 == 143 )
+    if ( v4 == 0x8F )
     {
-      v5 = sub_FFFF23BC(*v6);
+      v5 = asm_rev16(*v6);
       off_FFFF2440[v5](v6, v7);
     }
     else
@@ -2925,9 +2925,9 @@ LABEL_12:
   dword_4000601C = (int)&unk_40007A8C;
   sub_FFFF1688((int)&maybe_uart_rx_char, 0, 0x20u);
   maybe_detect_uart_baudrate();
-  v0 = sub_FFFF23BC(0x81u);
+  v0 = asm_rev16(0x81u);
   *(_WORD *)dword_40006018 = v0;
-  v1 = sub_FFFF23BC(6u);
+  v1 = asm_rev16(6u);
   v2 = dword_40006018;
   *(_WORD *)(dword_40006018 + 2) = v1;
   sub_FFFF1684(v2 + 4, (int)"SPRD3", 6, v3);
@@ -2982,7 +2982,7 @@ signed int *__fastcall sub_FFFF1F36(int a1)
   unsigned int v3; // r3
 
   v1 = a1;
-  v2 = sub_FFFF23BC(*(unsigned __int16 *)(a1 + 2));
+  v2 = asm_rev16(*(unsigned __int16 *)(a1 + 2));
   sub_FFFF1684(dword_40007EA0, v1 + 4, v2, v3);
   dword_40007EA0 += v2;
   dword_40007E98 += v2;
@@ -3022,7 +3022,7 @@ int __fastcall sub_FFFF1F7E(int a1, int a2)
 // 40007E9C: using guessed type int dword_40007E9C;
 
 //----- (FFFF1F94) --------------------------------------------------------
-signed int sub_FFFF1F94()
+signed int maybe_usb_send()
 {
   return 6;
 }
@@ -3578,7 +3578,8 @@ int __fastcall jump_to(int a1)
 }
 
 //----- (FFFF23BC) --------------------------------------------------------
-unsigned int __fastcall sub_FFFF23BC(unsigned int a1)
+// REV16 converts 16-bit big-endian data into little-endian data or 16-bit little-endian data into big-endian data.
+unsigned int __fastcall asm_rev16(unsigned int a1)
 {
   return __rev16(a1);
 }
