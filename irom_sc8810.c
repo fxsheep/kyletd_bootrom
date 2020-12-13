@@ -72,8 +72,8 @@ signed int sub_FFFF1020();
 BOOL SPL_Check();
 signed int read_spl_from_emmc();
 signed int maybe_clock_init();
-signed int sub_FFFF11EA();
-signed int sub_FFFF1238();
+signed int chip_pin_init();
+signed int gen0_enable();
 _DWORD *uart_init();
 int keypad_init();
 int ADI_init();
@@ -81,7 +81,7 @@ signed int disable_keypad();
 int get_timer_tick();
 signed int __fastcall ADI_Analogdie_reg_write(unsigned int addr, int data); // idb
 signed int __fastcall ADI_Analogdie_reg_read(unsigned int addr); // idb
-int sub_FFFF1370();
+int maybe_some_clock_enable();
 int __fastcall trace_write(int result);
 int platform_init();
 unsigned int sleep();
@@ -102,7 +102,7 @@ int __fastcall sub_FFFF1556(int a1, int a2, int a3);
 signed int sub_FFFF1610();
 int __fastcall maybe_toggle_mmc_LDO(int a1);
 int __fastcall sub_FFFF1684(int a1, int a2, int a3, unsigned int a4);
-int __fastcall sub_FFFF1688(int result, unsigned __int8 a2, unsigned int a3);
+int __fastcall memset(int result, unsigned __int8 a2, unsigned int a3);
 int __fastcall SPL_CheckSum(const unsigned int *src, int len); // idb
 signed int nand_stuffs_1();
 signed int disable_nfc();
@@ -495,7 +495,7 @@ void __fastcall __noreturn maybe_usb_download(int a1, int a2, unsigned __int16 *
     else
     {
       sub_FFFF0160(v4);
-      sub_FFFF1688((int)&word_40007E8C, 0, 0x18u);
+      memset((int)&word_40007E8C, 0, 0x18u);
     }
   }
 }
@@ -558,7 +558,7 @@ int sub_FFFF02DC()
     sub_FFFF0160(0x80u);
     byte_40007E90 = 1;
   }
-  return sub_FFFF1688((int)&word_40007E8C, 0, 0x18u);
+  return memset((int)&word_40007E8C, 0, 0x18u);
 }
 // 40007E8C: using guessed type __int16 word_40007E8C;
 // 40007E90: using guessed type char byte_40007E90;
@@ -1735,7 +1735,7 @@ signed int maybe_clock_init()
 }
 
 //----- (FFFF11EA) --------------------------------------------------------
-signed int sub_FFFF11EA()
+signed int chip_pin_init()
 {
   _DWORD *v0; // r0
   _DWORD *v1; // r0
@@ -1745,32 +1745,32 @@ signed int sub_FFFF11EA()
   MEMORY[0x8B000008] |= 0x2000u;                // GR_GEN0 bit[13] Pin control register bit 
   MEMORY[0x8B000008] |= 0x4000100u;             // GR_GEN0 bit[8] unknown
                                                 // GR_GEN0 bit[26] unknown
-  do
+  do                                            // 0x8C0000E0 - 0x8C0000FC KEYIN[0-7] set
   {
     *v0 |= 0x80u;
     ++v0;
   }
-  while ( (unsigned int)v0 <= 0x8C0000FC );
-  v1 = (_DWORD *)0x8C00019C;
+  while ( (unsigned int)v0 <= 0x8C0000FC );     // KEYIN set end
+  v1 = (_DWORD *)0x8C00019C;                    // reset EMC
   do
   {
     *v1 &= 0xFFFFFEFF;
     *v1 |= 0x200u;
     ++v1;
   }
-  while ( (unsigned int)v1 <= 0x8C0002A8 );
+  while ( (unsigned int)v1 <= 0x8C0002A8 );     // reset EMC end
   result = 0x8C000000;
   MEMORY[0x8C000000] |= 0x3000u;                // Chip pin registers 
   return result;
 }
 
 //----- (FFFF1238) --------------------------------------------------------
-signed int sub_FFFF1238()
+signed int gen0_enable()
 {
   signed int result; // r0
 
   result = 0x8B000000;
-  MEMORY[0x8B000008] |= 0x8080000u;
+  MEMORY[0x8B000008] |= 0x8080000u;             // set bit[19],bit[27] of GEN0, which enables some hardware modules
   return result;
 }
 
@@ -1887,14 +1887,14 @@ signed int __fastcall ADI_Analogdie_reg_read(unsigned int addr)
 }
 
 //----- (FFFF1370) --------------------------------------------------------
-int sub_FFFF1370()
+int maybe_some_clock_enable()
 {
   int result; // r0
 
   result = ADI_Analogdie_reg_read(0x82000600);
   if ( result != -1 )
   {
-    ADI_Analogdie_reg_write(0x82000600, (unsigned __int16)result | 0x202);
+    ADI_Analogdie_reg_write(0x82000600, (unsigned __int16)result | 0x202);// ADI_AGEN set bit[1] bit[9]
     result = 0;
   }
   return result;
@@ -1912,11 +1912,11 @@ int __fastcall trace_write(int result)
 int platform_init()
 {
   maybe_clock_init();
-  sub_FFFF11EA();
-  sub_FFFF1238();
+  chip_pin_init();
+  gen0_enable();
   uart_init();
   ADI_init();
-  sub_FFFF1370();
+  maybe_some_clock_enable();
   keypad_init();
   return trace_write(0x20000);
 }
@@ -2195,7 +2195,7 @@ int __fastcall maybe_toggle_mmc_LDO(int a1)
 }
 
 //----- (FFFF1688) --------------------------------------------------------
-int __fastcall sub_FFFF1688(int result, unsigned __int8 a2, unsigned int a3)
+int __fastcall memset(int result, unsigned __int8 a2, unsigned int a3)
 {
   unsigned __int8 v3; // r3
   unsigned int v4; // r1
@@ -2525,7 +2525,7 @@ void __fastcall __noreturn sub_FFFF19F0(int a1, int a2, unsigned __int16 *a3, in
     else
     {
       sub_FFFF19D4(v4);
-      sub_FFFF1688((int)&word_40007E8C, 0, 0x18u);
+      memset((int)&word_40007E8C, 0, 0x18u);
     }
   }
 }
@@ -2632,13 +2632,10 @@ signed int __fastcall sub_FFFF1B5C(int a1)
 int __fastcall maybe_nand_read(int a1, int a2, int a3, unsigned int a4)
 {
   int v5; // [sp+0h] [bp-10h]
-  unsigned int v6; // [sp+4h] [bp-Ch]
+  int v6; // [sp+4h] [bp-Ch]
 
-  v5 = a3;
-  v6 = a4;
   sub_FFFF1684(0x60004000, 0x6000204C, 44, a4);
-  sub_FFFF1688(0x6000204C, 0, 0x2Cu);
-  sub_FFFF1688((int)&v5, 0, 8u);
+  memset(0x6000204C, 0, 0x2Cu);
   v5 = 44;
   v6 = 512;
   return sub_FFFF18EC((unsigned __int16 *)&v5);
@@ -2677,7 +2674,7 @@ LABEL_8:
   if ( result )
     return result;
   v8 = (_BYTE *)(5 * v6 + v14);
-  sub_FFFF1688((int)v4, 0, 0xCu);
+  memset((int)v4, 0, 0xCu);
   v9 = 0;
   v4[2] = v8[3];
   v4[1] = v8[2];
@@ -2869,7 +2866,7 @@ int __cdecl main()
   while ( maybe_remapped < 0xA );
   platform_init();
   clear_uart_fifo();
-  sub_FFFF1688((int)&word_40007E8C, 0, 0x18u);
+  memset((int)&word_40007E8C, 0, 0x18u);
   byte_40007E90 = 0;
   dword_40006018 = 0;
   dword_4000601C = 0;
@@ -2923,7 +2920,7 @@ LABEL_12:
   trace_write(8);
   dword_40006018 = (int)&INIT_STACK;
   dword_4000601C = (int)&unk_40007A8C;
-  sub_FFFF1688((int)&maybe_uart_rx_char, 0, 0x20u);
+  memset((int)&maybe_uart_rx_char, 0, 0x20u);
   maybe_detect_uart_baudrate();
   v0 = asm_rev16(0x81u);
   *(_WORD *)dword_40006018 = v0;
@@ -2950,7 +2947,7 @@ int sub_FFFF1EEE()
     sub_FFFF19D4(0x80u);
     byte_40007E90 = 1;
   }
-  return sub_FFFF1688((int)&word_40007E8C, 0, 0x18u);
+  return memset((int)&word_40007E8C, 0, 0x18u);
 }
 // 40007E8C: using guessed type __int16 word_40007E8C;
 // 40007E90: using guessed type char byte_40007E90;
